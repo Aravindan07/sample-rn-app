@@ -46,7 +46,7 @@ jobs:
           cd ios && pod install
       - name: Build app
         run: |       
-          xcodebuild -workspace mainApp.xcworkspace -scheme mainApp archive -archivePath mainApp.xcarchive -allowProvisioningUpdates
+          cd ios && xcodebuild -workspace mainApp.xcworkspace -scheme mainApp archive -archivePath mainApp.xcarchive -allowProvisioningUpdates
           xcodebuild -exportArchive -archivePath ./mainApp.xcarchive -exportPath . -exportOptionsPlist mainApp/Info.plist
           mv mainApp.ipa ../mainApp.ipa
       - name: Upload Artifact
