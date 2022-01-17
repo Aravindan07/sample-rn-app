@@ -34,24 +34,17 @@ jobs:
           name: app-release.apk
           path: android/app/build/outputs/apk/release/
   build-ios:
-    needs: install-and-test
-    runs-on: macOS-latest
-    steps: 
-      - uses: actions/checkout@v2
-      - name: Install npm dependencies
-        run: |
-          yarn install
-      - name: Install pod dependencies
-        run: |
-          cd ios && pod install
-      - name: Build app
-        run: |       
-          cd ios && xcodebuild -workspace myApp.xcworkspace -scheme myApp archive -archivePath myApp.xcarchive -allowProvisioningUpdates
-          xcodebuild -exportArchive -archivePath ./myApp.xcarchive -exportPath . -exportOptionsPlist myApp/Info.plist
-          mv myApp.ipa ../myApp.ipa -sdk iphonesimulator
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: myapp.ipa
-          path: ios/build/
-  
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - run: npm ci
+    - run: xcode-select -p
+    - run: pod install
+      working-directory: ios
+      name: Install pod dependencies
+    - name: Build iOS (debug)
+      run: "xcodebuild -workspace ios/HelloReactNative.xcworkspace -scheme HelloReactNative clean archive -sdk iphoneos -configuration Debug -UseModernBuildSystem=NO -archivePath $PWD/HelloReactNative CODE_SIGNING_ALLOWED=NO"
