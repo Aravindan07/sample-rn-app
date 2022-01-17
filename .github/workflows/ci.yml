@@ -48,7 +48,7 @@ jobs:
         run: |       
           cd ios && xcodebuild -workspace myApp.xcworkspace -scheme myApp archive -archivePath myApp.xcarchive -allowProvisioningUpdates
           xcodebuild -exportArchive -archivePath ./myApp.xcarchive -exportPath . -exportOptionsPlist myApp/Info.plist
-          mv myApp.ipa ../myApp.ipa
+          mv myApp.ipa ../myApp.ipa -sdk iphonesimulator
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
