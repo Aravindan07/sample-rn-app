@@ -40,15 +40,15 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install npm dependencies
         run: |
-          npm install
+          yarn install
       - name: Install pod dependencies
         run: |
           cd ios && pod install
       - name: Build app
         run: |       
-          xcodebuild -workspace myapp.xcworkspace -scheme myapp archive -archivePath myapp.xcarchive -allowProvisioningUpdates
-          xcodebuild -exportArchive -archivePath ./myapp.xcarchive -exportPath . -exportOptionsPlist myapp/Info.plist
-          mv myapp.ipa ../myapp.ipa CODE_SIGNING_ALLOWED=NO
+          xcodebuild -workspace mainApp.xcworkspace -scheme mainApp archive -archivePath mainApp.xcarchive -allowProvisioningUpdates
+          xcodebuild -exportArchive -archivePath ./mainApp.xcarchive -exportPath . -exportOptionsPlist mainApp/Info.plist
+          mv mainApp.ipa ../mainApp.ipa CODE_SIGNING_ALLOWED=NO
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
